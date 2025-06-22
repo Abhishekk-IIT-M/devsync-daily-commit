@@ -1,0 +1,24 @@
+name: Daily Commit Workflow
+
+on:
+  schedule:
+    - cron: '10 3 * * *'  # Runs daily at 03:10 UTC (adjust as needed)
+  workflow_dispatch:
+
+jobs:
+  daily-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Make a change with 23ds3000150@ds.study.iitm.ac.in
+        run: |
+          echo "Updated on $(date)" >> daily-log.txt
+          git config user.name "DevSync Bot"
+          git config user.email "23ds3000150@ds.study.iitm.ac.in"
+          git add daily-log.txt
+          git commit -m "Daily commit on $(date)"
+          git push
+        env:
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
